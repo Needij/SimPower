@@ -1,4 +1,3 @@
-
 #Function to run power analysis (simulated) for the interaction between  2 (within subjects) by 3 (between subjects) in an ANOVA
 #requires many inputs, takes a while to run based on number of simulations
 #lower bound and upper bounds for bounded normal distributions can be added
@@ -36,7 +35,7 @@ ws2_by_bs3_anova_int_pow <- function (n1, n2, n3,
     simuldat$Group <- factor(simuldat$Group)
     
     #create time  data frame/factor
-    simtime <- as.data.frame(factor(c("Time1", "Time2")))
+    simtime <- data.frame(factor(c("Time1", "Time2")))
     colnames(simtime) <- "simtime" 
     
     #run model only tests if the w/s X b/s interaction term is significant
@@ -48,7 +47,7 @@ ws2_by_bs3_anova_int_pow <- function (n1, n2, n3,
   #return result
   power <- round(mean(results), 3)
   power_result <- paste("Power is ", power)
-  print(power_result)
+  return(power_result)
 }
 
 ws2_by_bs3_anova_int_pow(n1 = 54, n2 = 17, n3 = 32,
