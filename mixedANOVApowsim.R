@@ -1,11 +1,16 @@
 
 #Function to run power analysis (simulated) for the interaction between  2 (within subjects) by 3 (between subjects) in an ANOVA
 #requires many inputs, takes a while to run based on number of simulations
-ws2_by_bs3_anova_int_pow <- function (n1, n2, n3, m1_t1, m1_t2,
-                             m2_t1, m2_t2, m3_t1, m3_t2,
-                             sd1_t1, sd1_t2, sd2_t1, sd2_t2,
-                             sd3_t1, sd3_t2, numsims = 1000,
-                             lb = -Inf, ub = Inf) {
+#lower bound and upper bounds for bounded normal distributions can be added
+#enter sample sizes (ns), means for each group at time 1 and time 2, and number of simulations to run
+ws2_by_bs3_anova_int_pow <- function (n1, n2, n3, 
+                                      m1_t1, m1_t2, 
+                                      m2_t1, m2_t2, 
+                                      m3_t1, m3_t2,
+                                      sd1_t1, sd1_t2, 
+                                      sd2_t1, sd2_t2,
+                                      sd3_t1, sd3_t2, 
+                                      numsims = 1000, lb = -Inf, ub = Inf) {
   require(truncnorm)
   require(car)
   
@@ -55,19 +60,3 @@ ws2_by_bs3_anova_int_pow(n1 = 54, n2 = 17, n3 = 32,
                          sd3_t1 = 13.65, sd3_t2 = 22.65,
                          lb = 0, ub = 100, numsims = 5000)
 
-library(ggplot2)
-library(gridExtra)
-
-truncsim <- rtruncnorm(100, a = 0 , b = 100, mean = 12.78, sd = 11.6)
-normsim <- rnorm(100, mean = 12.78, sd = 11.6)
-data <- as.data.frame(cbind(truncsim, normsim))
-data$normtrunc <- ifelse(normsim < 0, 0, normsim)
-
-p1 <- ggplot(data, aes(x = truncsim))+geom_histogram()
-p2 <- ggplot(data, aes(x = normsim))+geom_histogram()
-p3 <- ggplot(data, aes(x = normtrunc))+geom_histogram()
-
-grid.arrange(p1, p2, p3)
-
-
-psych::describe(data)
